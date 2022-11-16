@@ -13,15 +13,15 @@ const create_equipment = (data) => {
   return new Promise((resolve, reject) => {
     base(conf.inventory_table_id)
       .create({
-        "Serial Number": data['Serial Number'],
-        "SCIS Tracking ID": data['SCIS Tracking ID'],
-        "Manuf/Model": data['Manuf/Model'],
-        "Type": [
+        "fldAq4XGFkcYzoQ7d": data['Serial Number'],
+        "fldPtltNwfN81g9LM": data['SCIS Tracking ID'],
+        "fldlqY9Nb0Oq8imKm": data['Manuf/Model'],
+        "fldULbOF43oupVpQS": [
           data['Type'],
         ],
-        "Belongs To...": data['Belongs To'],
-        "Location": data['Location'],
-        "Last Inventoried": today
+        "fldxJM81gyIhLkMYy": data['Belongs To'],
+        "fldoasg0RxGBf099G": data['Location'],
+        "fldn6RpEZ0hlRZrsq": today
       }, function (err, res) {
         if (err) {
           return reject(err);

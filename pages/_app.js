@@ -13,7 +13,8 @@ function MyApp({ Component, pageProps }) {
       <nav>
         <input type="button" value="Home" name="" onClick={handleRoute} />
         <input type="button" value="Add New Equipment" name="addEquipment" onClick={handleRoute} />
-        <input type="button" value="Get Equipment" name= "getEquipment" onClick={handleRoute} />
+        <input type="button" value="Get Equipment" name="getEquipment" onClick={handleRoute} />
+        <input type="button" value="Checkout Equipment" name="checkoutEquipment" onClick={handleRoute} />
       </nav>
       <Component {...pageProps} />
     </>)
