@@ -16,6 +16,7 @@ const get_equipment = (Type) => {
         .eachPage(
           function page(results, fetchNextPage) {
             results.forEach((item) => {
+              item['fields']['id'] = item['id'];
               records.push(item['fields']);
             });
             fetchNextPage();
@@ -36,6 +37,7 @@ const get_equipment = (Type) => {
         .eachPage(
           function page(results, fetchNextPage) {
             results.forEach((item) => {
+              item['fields']['id'] = item['id'];
               records.push(item['fields']);
             });
             fetchNextPage();
