@@ -30,6 +30,23 @@ export default function Result({ data }) {
     }
   };
 
+  //Make it so that the "Belongs To" field changes to a dropdown to allow for changes
+  const handleEdit = async () => {
+    const response = await fetch('/api/editData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (Object.keys(result).length > 0)
+      alert('Ownership updated successfully!');
+    alert(
+      'Inventoried date was not updated!\nCheck that the item has not been surplused and is active in airtable.'
+    );
+  };
+
   if (Object.keys(data).length > 0) {
     return (
       <>
@@ -38,6 +55,12 @@ export default function Result({ data }) {
           type="submit"
           value="Update Inventoried Date"
           onClick={handleUpdate}
+        />
+        <input
+          type="submit"
+          value="Edit Ownership"
+          onClick={handleEdit}
+          disabled
         />
         <p>Item description: {data['Manuf/Model']}</p>
         <p>Internal ID: {data['Internal ID']}</p>

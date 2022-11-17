@@ -1,4 +1,8 @@
-import { CheckoutForm, GetEquipmentForm } from '../components/forms';
+import {
+  CheckoutForm,
+  GetEquipmentForm,
+  EquipmentTable,
+} from '../components/forms';
 import { useState } from 'react';
 
 //get Equipment should return a table of equipment by type first, then manuf/model, then serial number
@@ -12,7 +16,12 @@ export default function Index() {
           setData={setData}
         />
       );
-    return <GetEquipmentForm setData={setData} />;
+    return (
+      <EquipmentTable
+        data={data}
+        setData={setData}
+      />
+    );
   };
   return (
     <div className="body">
