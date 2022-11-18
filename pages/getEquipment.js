@@ -4,13 +4,19 @@ import { useState } from 'react';
 
 export default function Index() {
   const [data, setData] = useState({});
+  const [inventoryDate, setInventoryDate] = useState('');
+
   return (
     <div className="body">
       <GetEquipmentForm
-        data={data}
         setData={setData}
+        setInventoryDate={setInventoryDate}
       />
-      <Result data={data} />
+      <Result
+        data={data}
+        inventoryDate={inventoryDate}
+        setInventoryDate={setInventoryDate}
+      />
     </div>
   );
 }

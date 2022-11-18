@@ -18,8 +18,6 @@ const pid_record_id = (panther_id) => {
           console.error(err);
           return reject(err);
         }
-
-        console.log(res);
         return resolve(res);
       });
   });
@@ -32,7 +30,6 @@ const checkout_equipment = async (data) => {
       ? true
       : false;
   const record_id = await pid_record_id(data['PID']);
-
   return new Promise((resolve, reject) => {
     base(conf.checkout_table_id).create(
       {

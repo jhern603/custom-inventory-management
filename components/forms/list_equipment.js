@@ -44,7 +44,7 @@ const EquipmentTable = ({ data, setData }) => {
       />
       <button onClick={handleSearch}>Search</button>
       {selected ? (
-        <button onClick={handleCheckout}>Select for Checkout</button>
+        <button onClick={handleCheckout}>Continue To Checkout</button>
       ) : (
         ''
       )}

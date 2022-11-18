@@ -1,6 +1,11 @@
 import Image from 'next/image';
+import { useState} from 'react';
+import { OwnerSelectField } from './fields/OwnerSelectField';
 
-export default function Result({ data }) {
+export default function Result({ data, inventoryDate, setInventoryDate }) {
+  const [defaultOption, setDefaultOption] = useState('');
+  const [result, setResult] = useState('');
+  const [disabled, setDisabled] = useState(true);
   const handleUpdate = async () => {
     const date = new Date();
     const today = `${date.getFullYear()}-${
@@ -19,9 +24,10 @@ export default function Result({ data }) {
         body: JSON.stringify(data, today),
       });
       const result = await response.json();
-      if (Object.keys(result).length > 0)
+      if (Object.keys(result).length > 0) {
         alert('Inventoried date updated successfully!');
-      else
+        setInventoryDate(today);
+      } else
         alert(
           'Inventoried date was not updated!\nCheck that the item has not been surplused and is active in airtable.'
         );
@@ -39,11 +45,11 @@ export default function Result({ data }) {
       },
       body: JSON.stringify(data),
     });
-    const result = await response.json();
+    setResult(await response.json());
     if (Object.keys(result).length > 0)
       alert('Ownership updated successfully!');
     alert(
-      'Inventoried date was not updated!\nCheck that the item has not been surplused and is active in airtable.'
+      'Ownership update failed.'
     );
   };
 
@@ -60,13 +66,25 @@ export default function Result({ data }) {
           type="submit"
           value="Edit Ownership"
           onClick={handleEdit}
-          disabled
         />
         <p>Item description: {data['Manuf/Model']}</p>
         <p>Internal ID: {data['Internal ID']}</p>
-        <p>Belongs to: {data['Belongs To...']}</p>
+        <p>
+          Belongs to:
+          <select
+            name=""
+            id=""
+            defaultValue={defaultOption}>
+            {/*This is somehow causing a rendering error... It's rendering at the same time as the parent <Render /> component*/}
+            <OwnerSelectField
+              setDefaultOption={setDefaultOption}
+              data={data}
+              disabled={disabled}
+            />
+          </select>
+        </p>
         <p>Added to inventory: {data['Added']}</p>
-        <p>Last Inventoried: {data['Last Inventoried']}</p>
+        <p>Last Inventoried: {inventoryDate}</p>
         <Image
           src={data['Barcode']}
           width={300}

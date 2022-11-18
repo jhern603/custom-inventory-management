@@ -1,4 +1,4 @@
-const GetEquipmentForm = ({ data, setData }) => {
+const GetEquipmentForm = ({ setData, setInventoryDate }) => {
   const handleSearch = async (event) => {
     event.preventDefault();
     const search_data = event.target;
@@ -11,6 +11,7 @@ const GetEquipmentForm = ({ data, setData }) => {
     });
     const result = await response.json();
     setData(result.data);
+    setInventoryDate(result.data['Last Inventoried']);
   };
 
   return (
