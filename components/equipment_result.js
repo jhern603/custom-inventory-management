@@ -36,7 +36,6 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
     }
   };
 
-  //Make it so that the "Belongs To" field changes to a dropdown to allow for changes
   const handleEdit = async () => {
     const response = await fetch('/api/editData', {
       method: 'POST',
@@ -75,7 +74,7 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
             name=""
             id=""
             defaultValue={defaultOption}>
-            {/*This is somehow causing a rendering error... It's rendering at the same time as the parent <Render /> component*/}
+            {/*This is somehow causing a rendering error... It's rendering at the same time as the parent <Result/> component*/}
             <OwnerSelectField
               setDefaultOption={setDefaultOption}
               data={data}
