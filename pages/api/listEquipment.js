@@ -8,7 +8,7 @@ const base = new airtable({
 const get_equipment = (Type) => {
   let records = [];
   return new Promise((resolve, reject) => {
-    if (Type.includes('All'))
+    if (typeof(Type) === 'string' && Type.includes('All'))
       base(conf.inventory_table_id)
         .select({
           view: 'Master View',
