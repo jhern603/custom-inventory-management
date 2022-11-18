@@ -5,5 +5,5 @@ export default function Index() {
     <div className="body">
       <AddEquipmentForm />
     </div>
-  )
+  );
 }
