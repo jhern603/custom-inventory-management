@@ -6,6 +6,7 @@ const OwnerSelectField = ({ setDefaultOption, data, disabled }) => {
       return (
         <option
           key={owner}
+          selected
           disabled>
           {owner}
         </option>
@@ -14,7 +15,7 @@ const OwnerSelectField = ({ setDefaultOption, data, disabled }) => {
       return (
         <option
           key={owner}
-          {...(disabled ? '' : 'disabled')}>
+          disabled>
           {owner}
         </option>
       );

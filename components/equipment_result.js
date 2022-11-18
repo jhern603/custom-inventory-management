@@ -1,11 +1,22 @@
 import Image from 'next/image';
-import { useState} from 'react';
+import { useState } from 'react';
 import { OwnerSelectField } from './fields/OwnerSelectField';
 
+//Move this to the API to prevent re-rendering
+const getOwner = (data, setDefaultOption) => {
+  const conf = require('../conf.json');
+  for (let i = 0; i < conf['ownership_list'].length; i++) {
+    let owner = conf['ownership_list'][i];
+    if (owner.toLowerCase() === data['Belongs To...'].toLowerCase())
+      setDefaultOption(owner);
+    break;
+  }
+};
 export default function Result({ data, inventoryDate, setInventoryDate }) {
   const [defaultOption, setDefaultOption] = useState('');
   const [result, setResult] = useState('');
   const [disabled, setDisabled] = useState(true);
+
   const handleUpdate = async () => {
     const date = new Date();
     const today = `${date.getFullYear()}-${
@@ -47,12 +58,11 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
     setResult(await response.json());
     if (Object.keys(result).length > 0)
       alert('Ownership updated successfully!');
-    alert(
-      'Ownership update failed.'
-    );
+    alert('Ownership update failed.');
   };
 
   if (Object.keys(data).length > 0) {
+    getOwner(data, setDefaultOption);
     return (
       <>
         <h1>Result for {data['Serial Number']}</h1>
@@ -68,20 +78,21 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
         />
         <p>Item description: {data['Manuf/Model']}</p>
         <p>Internal ID: {data['Internal ID']}</p>
-        <p>
-          Belongs to:
-          <select
-            name=""
-            id=""
-            defaultValue={defaultOption}>
-            {/*This is somehow causing a rendering error... It's rendering at the same time as the parent <Result/> component*/}
-            <OwnerSelectField
-              setDefaultOption={setDefaultOption}
-              data={data}
-              disabled={disabled}
-            />
-          </select>
-        </p>
+        {defaultOption ? (
+          <p>
+            Belongs to:
+            <select defaultValue={defaultOption}>
+              <OwnerSelectField
+                setDefaultOption={setDefaultOption}
+                data={data}
+                disabled={disabled}
+              />
+            </select>
+          </p>
+        ) : (
+          ''
+        )}
+
         <p>Added to inventory: {data['Added']}</p>
         <p>Last Inventoried: {inventoryDate}</p>
         <Image

@@ -12,6 +12,7 @@ export default function Index() {
         setData={setData}
         setInventoryDate={setInventoryDate}
       />
+      
       <Result
         data={data}
         inventoryDate={inventoryDate}
