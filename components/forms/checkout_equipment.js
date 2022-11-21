@@ -19,8 +19,10 @@ const CheckoutForm = ({ data }) => {
       body: JSON.stringify(checkoutData),
     });
     const result = await response.json();
-    if (result) alert('Equipment has been Successfully Checked Out!');
-    else alert('There was a Problem Checking out the Equipment!');
+    if (result) {
+      alert('Equipment has been Successfully Checked Out!');
+      window.location.reload(false);
+    } else alert('There was a Problem Checking out the Equipment!');
   };
   return (
     <form onSubmit={handleCheckout}>
