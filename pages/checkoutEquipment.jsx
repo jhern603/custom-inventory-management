@@ -1,11 +1,10 @@
 import {
   CheckoutForm,
-  GetEquipmentForm,
   EquipmentTable,
 } from '../components/forms';
 import { useState } from 'react';
 
-//get Equipment should return a table of equipment by type first, then manuf/model, then serial number
+
 export default function Index() {
   const [data, setData] = useState({});
   const ConditionalForm = () => {

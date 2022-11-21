@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>UPEI</title>
+        <title>UPE Inventory Management</title>
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"
