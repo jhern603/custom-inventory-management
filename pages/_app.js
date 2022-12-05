@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
-
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
@@ -18,11 +17,18 @@ function MyApp({ Component, pageProps }) {
           content="initial-scale=1.0, width=device-width"
         />
       </Head>
+
       <nav>
         <input
           type="button"
           value="Home"
           name=""
+          onClick={handleRoute}
+        />
+        <input
+          type="button"
+          value="Register"
+          name="register"
           onClick={handleRoute}
         />
         <input
