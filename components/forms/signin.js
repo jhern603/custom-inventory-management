@@ -4,7 +4,7 @@ import { email_signin } from '../firebase';
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState({message:null});
   const signIn = async (e) => {
     e.preventDefault();
     setResult(await email_signin(email, password));

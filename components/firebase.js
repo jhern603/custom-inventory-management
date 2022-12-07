@@ -64,6 +64,9 @@ const email_signin = async (email, password) => {
   }
 };
 
-const signout = () => signOut(auth);
+const signout = async () => {
+  await signOut(auth);
+  return false;
+};
 
-export { email_signup, email_signin };
+export { email_signup, email_signin, signout, auth };
