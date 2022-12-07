@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
-function MyApp({ Component, pageProps }) {
+function InventoryManager({ Component, pageProps }) {
   const router = useRouter();
 
   const handleRoute = (e) => {
@@ -33,6 +33,12 @@ function MyApp({ Component, pageProps }) {
         />
         <input
           type="button"
+          value="Sign In"
+          name="signin"
+          onClick={handleRoute}
+        />
+        <input
+          type="button"
           value="Add New Equipment"
           name="addEquipment"
           onClick={handleRoute}
@@ -55,4 +61,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default InventoryManager;
