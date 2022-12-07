@@ -5,9 +5,6 @@ import { signout, auth } from '../components/firebase';
 function Navbar() {
   const router = useRouter();
   const [authState, setAuthState] = useState(false);
-  if (!authState && auth.currentUser) {
-    setAuthState(true);
-  }
   const handleSignout = async () => {
     setAuthState(await signout());
     router.push('/');
@@ -15,7 +12,9 @@ function Navbar() {
   const handleRoute = (e) => {
     router.push('/' + e.target.name);
   };
-
+  auth.onAuthStateChanged(() => {
+    if (!authState && auth.currentUser) setAuthState(true);
+  });
   return (
     <nav>
       <input
@@ -29,19 +28,19 @@ function Navbar() {
           <input
             type="button"
             value="Add New Equipment"
-            name="addEquipment"
+            name="equipment/addNew"
             onClick={handleRoute}
           />
           <input
             type="button"
             value="Get Equipment"
-            name="getEquipment"
+            name="equipment/get"
             onClick={handleRoute}
           />
           <input
             type="button"
             value="Checkout Equipment"
-            name="checkoutEquipment"
+            name="equipment/checkout"
             onClick={handleRoute}
           />
           <input

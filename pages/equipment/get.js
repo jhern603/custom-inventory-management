@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { GetEquipmentForm } from '../components/forms';
-import { auth } from '../components/firebase';
-import Result from '../components/equipment_result';
+import { GetEquipmentForm } from '../../components/forms';
+import { auth } from '../../components/firebase';
+import Result from '../../components/equipment_result';
 
 export default function Index() {
   const router = useRouter();
