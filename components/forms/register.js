@@ -4,13 +4,13 @@ import validator from 'validator';
 
 function Register() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorState, setErrorState] = useState(false);
   const [result, setResult] = useState('');
-  
+  let password = '';
+
   const register = async (e) => {
     e.preventDefault();
-    setResult( await email_signup(email, password));
+    setResult(await email_signup(email, password));
   };
 
   const validate = (value) => {
@@ -35,16 +35,14 @@ function Register() {
           <input
             type="text"
             className="register__textBox"
-            value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail Address"
           />
           <input
             type="password"
             className="register__textBox"
-            value={password}
             onChange={(e) => {
-              setPassword(e.target.value);
+              password = e.target.value;
               validate(password);
             }}
             placeholder="Password"
@@ -62,7 +60,7 @@ function Register() {
               </p>
             </span>
           )}
-          {result.message ? <p>{result.message}</p> : null}
+          {result ? <p>{result.message}</p> : null}
           <button
             className="register__btn"
             onClick={register}>
