@@ -6,14 +6,61 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
-const firebase_config = require('../conf.json')['firebase_conf'];
-const app = initializeApp(firebase_config);
-const auth = getAuth(app);
+import {
+  getFirestore,
+  setDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 
-const email_signup = async (email, password) => {
+const conf = require('../conf.json');
+const app = initializeApp(conf['firebase_conf']);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const pid_record_id = (panther_id) => {
+  const airtable = require('airtable');
+  const base = new airtable({
+    apiKey: conf.api_key,
+    endpointUrl: 'https://api.airtable.com',
+  }).base(conf.base_id);
+
+  return new Promise((resolve, reject) => {
+    base(conf.members_table_id)
+      .select({
+        view: 'Grid view',
+        filterByFormula: `({Panther ID} = \'${panther_id}\')`,
+      })
+      .firstPage((err, res) => {
+        if (err) {
+          console.error(err);
+          return reject(err);
+        }
+        return resolve(res);
+      });
+  });
+};
+
+const email_signup = async (email, password, panther_id) => {
   try {
+    const member = await pid_record_id(panther_id);
+    if (!member[0]) {
+      throw { code: 'Panther ID not found.' };
+    }
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
+
+    await setDoc(doc(db, 'users', user.uid), {
+      email: user.email,
+      canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),
+      isEboard: member[0].fields['Executive Board'].length > 0,
+      pantherId: panther_id,
+      name: member[0].fields['Name'],
+    });
+
     if (user) {
       sendEmailVerification(user);
       signout();
@@ -28,6 +75,13 @@ const email_signup = async (email, password) => {
         return { message: 'You have entered an invalid email.' };
       case 'auth/email-already-in-use':
         return { message: 'E-mail already in use!' };
+      case 'Panther ID not found.':
+        return { message: 'You have entered an invalid Panther ID!' };
+      default:
+        return {
+          message:
+            'An unexpected error has occurred. Please make sure you have entered your credentials correctly, or try again later.',
+        };
     }
   }
 };
@@ -37,8 +91,9 @@ const email_signin = async (email, password) => {
     const res = await signInWithEmailAndPassword(auth, email, password);
     const user = res.user;
 
-    if (user.emailVerified) return user;
-    else {
+    if (user.emailVerified) {
+      return user;
+    } else {
       signout();
       return {
         message:
@@ -69,4 +124,9 @@ const signout = async () => {
   return false;
 };
 
-export { email_signup, email_signin, signout, auth };
+const getdoc = async (email) => {
+  const q = query(collection(db, 'users'), where('email', '==', email));
+  return await getDocs(q);
+};
+
+export { email_signup, email_signin, signout, getdoc, auth };

@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { signout, auth } from '../components/firebase';
+import { signout, auth, getdoc } from '../components/firebase';
 
 function Navbar() {
   const router = useRouter();
   const [authState, setAuthState] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
   const handleSignout = async () => {
     setAuthState(await signout());
     router.push('/');
@@ -12,9 +13,20 @@ function Navbar() {
   const handleRoute = (e) => {
     router.push('/' + e.target.name);
   };
+
   auth.onAuthStateChanged(() => {
-    if (!authState && auth.currentUser) setAuthState(true);
+    if (!authState && auth.currentUser) {
+      setAuthState(true);
+      getdoc(auth.currentUser.email).then((val) =>
+        setCanEdit(
+          val.docs[0]['_document']['data']['value']['mapValue']['fields'][
+            'canModifyEquipment'
+          ]['booleanValue']
+        )
+      );
+    }
   });
+
   return (
     <nav>
       <input
@@ -25,18 +37,22 @@ function Navbar() {
       />
       {authState ? (
         <>
-          <input
-            type="button"
-            value="Add New Equipment"
-            name="equipment/addNew"
-            onClick={handleRoute}
-          />
-          <input
-            type="button"
-            value="Get Equipment"
-            name="equipment/get"
-            onClick={handleRoute}
-          />
+          {canEdit ? (
+            <>
+              <input
+                type="button"
+                value="Add New Equipment"
+                name="equipment/addNew"
+                onClick={handleRoute}
+              />
+              <input
+                type="button"
+                value="Get Equipment"
+                name="equipment/get"
+                onClick={handleRoute}
+              />
+            </>
+          ) : null}
           <input
             type="button"
             value="Checkout Equipment"

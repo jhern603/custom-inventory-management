@@ -6,11 +6,13 @@ function Register() {
   const [email, setEmail] = useState('');
   const [errorState, setErrorState] = useState(false);
   const [result, setResult] = useState('');
-  let password = '';
+  const [pid, setPID] = useState('');
+  const [password, setPassword] = useState('');
 
   const register = async (e) => {
     e.preventDefault();
-    setResult(await email_signup(email, password));
+    setResult(await email_signup(email, password, pid));
+    setPassword('');
   };
 
   const validate = (value) => {
@@ -37,12 +39,20 @@ function Register() {
             className="register__textBox"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail Address"
+            required
+          />
+          <input
+            type="text"
+            className="register__textBox"
+            onChange={(e) => setPID(e.target.value)}
+            placeholder="Panther ID"
           />
           <input
             type="password"
             className="register__textBox"
+            value={password}
             onChange={(e) => {
-              password = e.target.value;
+              setPassword(e.target.value);
               validate(password);
             }}
             placeholder="Password"
