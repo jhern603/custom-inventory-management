@@ -70,19 +70,7 @@ const email_signup = async (email, password, panther_id) => {
       };
     }
   } catch (error) {
-    switch (error.code) {
-      case 'auth/invalid-email':
-        return { message: 'You have entered an invalid email.' };
-      case 'auth/email-already-in-use':
-        return { message: 'E-mail already in use!' };
-      case 'Panther ID not found.':
-        return { message: 'You have entered an invalid Panther ID!' };
-      default:
-        return {
-          message:
-            'An unexpected error has occurred. Please make sure you have entered your credentials correctly, or try again later.',
-        };
-    }
+    handleError(error);
   }
 };
 
@@ -101,21 +89,7 @@ const email_signin = async (email, password) => {
       };
     }
   } catch (error) {
-    switch (error.code) {
-      case 'auth/invalid-email':
-        return { message: 'You have entered an invalid email.' };
-      case 'auth/user-disabled':
-        return { message: 'Your account is disabled.' };
-      case 'auth/wrong-password':
-        return { message: 'You have entered an incorrect password.' };
-      case 'auth/user-not-found':
-        return { message: 'E-Mail not found.' };
-      default:
-        return {
-          message:
-            'An unexpected error has occurred. Please make sure you have entered your credentials correctly, or try again later.',
-        };
-    }
+    handleError(error);
   }
 };
 
@@ -127,6 +101,30 @@ const signout = async () => {
 const getdoc = async (email) => {
   const q = query(collection(db, 'users'), where('email', '==', email));
   return await getDocs(q);
+};
+
+const handleError = (error) => {
+  switch (error.code) {
+    case 'auth/invalid-email':
+      return { message: 'You have entered an invalid email.' };
+    case 'auth/user-disabled':
+      return { message: 'Your account is disabled.' };
+    case 'auth/wrong-password':
+      return { message: 'You have entered an incorrect password.' };
+    case 'auth/user-not-found':
+      return { message: 'E-Mail not found.' };
+    case 'auth/invalid-email':
+      return { message: 'You have entered an invalid email.' };
+    case 'auth/email-already-in-use':
+      return { message: 'E-mail already in use!' };
+    case 'Panther ID not found.':
+      return { message: 'You have entered an invalid Panther ID!' };
+    default:
+      return {
+        message:
+          'An unexpected error has occurred. Please make sure you have entered your credentials correctly, or try again later.',
+      };
+  }
 };
 
 export { email_signup, email_signin, signout, getdoc, auth };

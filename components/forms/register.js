@@ -36,20 +36,20 @@ function Register() {
         <form className="register__form">
           <input
             type="text"
-            className="register__textBox"
+            className="register__textbox"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail Address"
             required
           />
           <input
             type="text"
-            className="register__textBox"
+            className="register__textbox"
             onChange={(e) => setPID(e.target.value)}
             placeholder="Panther ID"
           />
           <input
             type="password"
-            className="register__textBox"
+            className="register__textbox"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);

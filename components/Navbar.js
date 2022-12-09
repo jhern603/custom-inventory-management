@@ -6,6 +6,7 @@ function Navbar() {
   const router = useRouter();
   const [authState, setAuthState] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  
   const handleSignout = async () => {
     setAuthState(await signout());
     router.push('/');
