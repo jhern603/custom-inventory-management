@@ -6,7 +6,7 @@ function Navbar() {
   const router = useRouter();
   const [authState, setAuthState] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
-  
+
   const handleSignout = async () => {
     setAuthState(await signout());
     router.push('/');
@@ -19,17 +19,14 @@ function Navbar() {
     if (!authState && auth.currentUser) {
       setAuthState(true);
       getdoc(auth.currentUser.email).then((val) =>
-        setCanEdit(
-          val.docs[0]['_document']['data']['value']['mapValue']['fields'][
-            'canModifyEquipment'
-          ]['booleanValue']
-        )
+        setCanEdit(val['canModifyEquipment'])
       );
     }
   });
 
   return (
     <nav>
+      {authState ? <p>Welcome, {auth.currentUser.name}</p> : null}
       <input
         type="button"
         value="Home"

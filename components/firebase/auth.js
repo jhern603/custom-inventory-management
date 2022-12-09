@@ -8,6 +8,7 @@ import {
 import { setDoc, doc } from 'firebase/firestore';
 import { auth, handleError, pid_record_id } from './firebase';
 
+
 const email_signup = async (email, password, panther_id) => {
   try {
     const member = await pid_record_id(panther_id);
@@ -66,5 +67,7 @@ const signout = async () => {
   await signOut(auth);
   return false;
 };
+
+
 
 export { email_signup, email_signin, signout };

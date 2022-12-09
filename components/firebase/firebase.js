@@ -37,10 +37,21 @@ const pid_record_id = (panther_id) => {
 };
 
 const getdoc = async (email) => {
-  const q = query(collection(db, 'users'), where('email', '==', email));
-  return await getDocs(q);
-};
+  let data_list = [];
 
+  if (email) {
+    const q = query(collection(db, 'users'), where('email', '==', email));
+    return await (
+      await getDocs(q)
+    ).docs[0].data();
+  }
+
+  const snapshot = await getDocs(collection(db, 'users'));
+  snapshot.forEach((doc) => {
+    data_list.push(doc.data());
+  });
+  return data_list;
+};
 const handleError = (error) => {
   switch (error.code) {
     case 'auth/invalid-email':
