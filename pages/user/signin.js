@@ -1,4 +1,4 @@
-import { SignIn } from '../components/forms';
+import { SignIn } from '../../components/forms';
 
 export default function Index() {
   return (

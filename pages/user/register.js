@@ -1,4 +1,4 @@
-import { Register } from '../components/forms';
+import { Register } from '../../components/forms';
 
 export default function Index() {
   return (

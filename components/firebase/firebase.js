@@ -1,22 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signOut,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import {
   getFirestore,
-  setDoc,
   collection,
-  doc,
   getDocs,
   query,
   where,
 } from 'firebase/firestore';
 
-const conf = require('../conf.json');
+const conf = require('../../conf.json');
 const app = initializeApp(conf['firebase_conf']);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -42,60 +34,6 @@ const pid_record_id = (panther_id) => {
         return resolve(res);
       });
   });
-};
-
-const email_signup = async (email, password, panther_id) => {
-  try {
-    const member = await pid_record_id(panther_id);
-    if (!member[0]) {
-      throw { code: 'Panther ID not found.' };
-    }
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-
-    await setDoc(doc(db, 'users', user.uid), {
-      email: user.email,
-      canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),
-      isEboard: member[0].fields['Executive Board'].length > 0,
-      pantherId: panther_id,
-      name: member[0].fields['Name'],
-    });
-
-    if (user) {
-      sendEmailVerification(user);
-      signout();
-      return {
-        message:
-          'Account Successfully Created. Click the verification link sent to your email to complete the sign-up process.',
-      };
-    }
-  } catch (error) {
-    handleError(error);
-  }
-};
-
-const email_signin = async (email, password) => {
-  try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-
-    if (user.emailVerified) {
-      return user;
-    } else {
-      signout();
-      return {
-        message:
-          'You have not verified your email yet!\nPlease click on the link sent to your email first before attempting to log in.',
-      };
-    }
-  } catch (error) {
-    handleError(error);
-  }
-};
-
-const signout = async () => {
-  await signOut(auth);
-  return false;
 };
 
 const getdoc = async (email) => {
@@ -127,4 +65,4 @@ const handleError = (error) => {
   }
 };
 
-export { email_signup, email_signin, signout, getdoc, auth };
+export { getdoc, handleError, pid_record_id, auth };

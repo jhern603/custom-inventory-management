@@ -71,13 +71,13 @@ function Navbar() {
           <input
             type="button"
             value="Register"
-            name="register"
+            name="user/register"
             onClick={handleRoute}
           />
           <input
             type="button"
             value="Sign In"
-            name="signin"
+            name="user/signin"
             onClick={handleRoute}
           />
         </>
