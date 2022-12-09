@@ -51,16 +51,11 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
     }
   };
 
-  const handleEdit = async () => {
-    setDisabled(!disabled);
-  };
-
   const handleSubmitEdit = async () => {
     const new_owner_object = {
       new_owner: new_owner_ref.current.value,
       id: data['id'],
     };
-
     const response = await fetch('/api/updateOwner', {
       method: 'POST',
       headers: {
@@ -69,6 +64,7 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
       body: JSON.stringify(new_owner_object),
     });
     const result = await response.status;
+
     if (result === 200) {
       alert('Ownership updated successfully!');
       setDisabled(!disabled);
@@ -90,7 +86,7 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
         <input
           type="submit"
           value="Edit Ownership"
-          onClick={handleEdit}
+          onClick={() => setDisabled(!disabled)}
         />
         {!disabled ? (
           <input
@@ -98,9 +94,7 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
             value="Submit Change"
             onClick={handleSubmitEdit}
           />
-        ) : (
-          ''
-        )}
+        ) : null}
 
         <p>Item description: {data['Manuf/Model']}</p>
         <p>Internal ID: {data['Internal ID']}</p>

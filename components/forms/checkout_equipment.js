@@ -44,16 +44,18 @@ const CheckoutForm = ({ data }) => {
         cols="30"
         rows="10"
         minLength="5"
-        required></textarea>
+        required
+      />
       <br />
       <label htmlFor="TOC">
         By checking out this equipment, you are agreeing that you have read the{' '}
         <a
           href={TOC}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+        >
           terms and conditions
-        </a>{' '}
+        </a>
         of the equipment checkout.
       </label>
       <input

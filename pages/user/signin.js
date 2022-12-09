@@ -1,9 +1,9 @@
-import { AddEquipmentForm } from '../components/forms';
+import { SignIn } from '../../components/forms';
 
 export default function Index() {
   return (
     <div className="body">
-      <AddEquipmentForm />
+      <SignIn />
     </div>
   );
 }

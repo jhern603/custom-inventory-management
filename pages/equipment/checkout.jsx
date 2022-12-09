@@ -1,12 +1,11 @@
-import {
-  CheckoutForm,
-  GetEquipmentForm,
-  EquipmentTable,
-} from '../components/forms';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { CheckoutForm, EquipmentTable } from '../../components/forms';
+import { auth } from '../../components/firebase';
 
-//get Equipment should return a table of equipment by type first, then manuf/model, then serial number
 export default function Index() {
+  const router = useRouter();
+  const [authState, setAuthState] = useState(false);
   const [data, setData] = useState({});
   const ConditionalForm = () => {
     if (Object.keys(data).length > 0)
@@ -23,6 +22,14 @@ export default function Index() {
       />
     );
   };
+  
+  if (!authState && auth.currentUser) {
+    setAuthState(true);
+  }
+  useEffect(() => {
+    if (!authState) router.push('/');
+  });
+
   return (
     <div className="body">
       <ConditionalForm />
