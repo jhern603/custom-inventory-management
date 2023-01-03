@@ -5,15 +5,17 @@ export default function Index() {
   const [docRetrieved, setDocRetrieved] = useState(false);
   const [users, setUsers] = useState([]);
 
-  if (!docRetrieved)
+  if (!docRetrieved) {
     getdoc().then((doc) => {
       setUsers(doc);
       setDocRetrieved(true);
     });
-  
-  return (
-    <div className="body">
-      <UserList users={users} />
-    </div>
-  );
+    
+  } else {
+    return (
+      <div className="body">
+        <UserList users={users} />
+      </div>
+    );
+  }
 }

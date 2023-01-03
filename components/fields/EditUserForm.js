@@ -5,19 +5,20 @@ const EditUserForm = ({
   setHandleEditUser,
   setNewUserInfo,
 }) => {
-  const [isEboard, setIsEboard] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [canModifyEquipment, setCanModifyEquipment] = useState(false);
-
-  let newUserInfo = {};
+  const [isEboard, setEboard] = useState(user.isEboard);
+  const [canModifyEquipment, setModifyEquipment] = useState(
+    user.canModifyEquipment
+  );
+  let newUserInfo = { ...user };
 
   const handleSave = () => {
+    newUserInfo.isEboard = isEboard;
+    newUserInfo.canModifyEquipment = canModifyEquipment;
     setNewUserInfo(newUserInfo);
     setHandleEditUser('');
   };
 
   const handleChange = (e) => {
-    newUserInfo = { ...user };
     newUserInfo[e.target.name] = e.target.value;
   };
 
@@ -44,23 +45,21 @@ const EditUserForm = ({
       </td>
       <td>
         <CustomChecked
-          property={user.canModifyEquipment}
           state={canModifyEquipment}
-          setState={setCanModifyEquipment}
+          setState={setModifyEquipment}
         />
       </td>
       <td>
         <CustomChecked
-          property={user.isEboard}
           state={isEboard}
-          setState={setIsEboard}
+          setState={setEboard}
         />
       </td>
       <td>
-        <CustomChecked
-          property={user.isAdmin}
-          state={isAdmin}
-          setState={setIsAdmin}
+        <input
+          type="checkbox"
+          defaultChecked={user.isAdmin}
+          disabled
         />
       </td>
       <td>
@@ -85,15 +84,16 @@ const EditUserForm = ({
   );
 };
 
-const CustomChecked = ({ property, state, setState }) => {
+const CustomChecked = ({ state, setState }) => {
   const handleState = () => {
-    if (property) setState(!state);
+    setState(!state);
   };
+
   return (
     <input
       type="checkbox"
       onChange={handleState}
-      checked={property}
+      checked={state}
     />
   );
 };

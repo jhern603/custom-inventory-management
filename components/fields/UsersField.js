@@ -8,7 +8,7 @@ const UserList = ({ users }) => {
   const [newUserInfo, setNewUserInfo] = useState({});
   const handleEditUser = (e) => {
     const user_object = users.find((obj) => {
-      if (obj.pantherId == e.target.id) return obj;
+      if (obj.pantherId === e.target.id) return obj;
     });
     if (user_object !== undefined) {
       setUserBeingEdited(user_object.pantherId);
@@ -34,12 +34,7 @@ const UserList = ({ users }) => {
           const canEditUsers =
             auth.currentUser.email === user.email && user.isAdmin;
           disabled = !disabled && canEditUsers;
-
-          // Duplicates being made after save
-          if (
-            Object.keys(user).length > 0 &&
-            user.pantherId != newUserInfo.pantherId
-          ) {
+          if (user.pantherId != newUserInfo.pantherId) {
             return (
               <UserItem
                 user={user}
@@ -50,10 +45,7 @@ const UserList = ({ users }) => {
                 setUserBeingEdited={setUserBeingEdited}
               />
             );
-          } else if (
-            Object.keys(newUserInfo).length > 0 &&
-            user.pantherId != newUserInfo.pantherId
-          ) {
+          } else if (Object.keys(newUserInfo).length > 0) {
             return (
               <UserItem
                 user={newUserInfo}

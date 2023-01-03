@@ -41,14 +41,14 @@ const getdoc = async (email) => {
 
   if (email) {
     const q = query(collection(db, 'users'), where('email', '==', email));
-    return await (
-      await getDocs(q)
-    ).docs[0].data();
+    return await (await getDocs(q)).docs[0].data();
   }
 
   const snapshot = await getDocs(collection(db, 'users'));
   snapshot.forEach((doc) => {
-    data_list.push(doc.data());
+    if (Object.keys(doc.data()).length > 0) {
+      data_list.push(doc.data());
+    }
   });
   return data_list;
 };
@@ -62,8 +62,6 @@ const handleError = (error) => {
       return { message: 'You have entered an incorrect password.' };
     case 'auth/user-not-found':
       return { message: 'E-Mail not found.' };
-    case 'auth/invalid-email':
-      return { message: 'You have entered an invalid email.' };
     case 'auth/email-already-in-use':
       return { message: 'E-mail already in use!' };
     case 'Panther ID not found.':
