@@ -1,30 +1,23 @@
 import { useState } from 'react';
-const EditUserForm = ({ user, disabled, handleEditUser }) => {
+const EditUserForm = ({
+  user,
+  handleEditUser,
+  setHandleEditUser,
+  setNewUserInfo,
+}) => {
   const [isEboard, setIsEboard] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [canModifyEquipment, setCanModifyEquipment] = useState(false);
+
   let newUserInfo = {};
 
-  const CustomChecked = ({ property, state, setState }) => {
-    const handleState = () => {
-      if (property) setState(!state);
-    };
-    return (
-      <input
-        type="checkbox"
-        onChange={handleState}
-        checked={property}
-      />
-    );
-  };
-
   const handleSave = () => {
-    user = newUserInfo;
-    handleEditUser(user);
+    setNewUserInfo(newUserInfo);
+    setHandleEditUser('');
   };
 
   const handleChange = (e) => {
-    newUserInfo = {...user};
+    newUserInfo = { ...user };
     newUserInfo[e.target.name] = e.target.value;
   };
 
@@ -46,7 +39,9 @@ const EditUserForm = ({ user, disabled, handleEditUser }) => {
           onChange={handleChange}
         />
       </td>
-      <td>{user.pantherId}</td>
+      <td>
+        <p>{user.pantherId}</p>
+      </td>
       <td>
         <CustomChecked
           property={user.canModifyEquipment}
@@ -71,7 +66,8 @@ const EditUserForm = ({ user, disabled, handleEditUser }) => {
       <td>
         <button
           type="button"
-          onClick={() => handleEditUser(user.name)}>
+          onClick={handleEditUser}
+          id={user.pantherId}>
           Edit User
         </button>
       </td>
@@ -82,8 +78,24 @@ const EditUserForm = ({ user, disabled, handleEditUser }) => {
           Save
         </button>
       </td>
-      <td>editing user</td>
+      <td>
+        <p> editing user</p>
+      </td>
     </tr>
   );
 };
+
+const CustomChecked = ({ property, state, setState }) => {
+  const handleState = () => {
+    if (property) setState(!state);
+  };
+  return (
+    <input
+      type="checkbox"
+      onChange={handleState}
+      checked={property}
+    />
+  );
+};
+
 export { EditUserForm };

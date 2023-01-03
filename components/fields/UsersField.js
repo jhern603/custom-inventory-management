@@ -1,24 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { EditUserForm } from './EditUserForm';
-import { getdoc, auth } from '../firebase';
-const UserList = () => {
-  const [users, setUsers] = useState([]);
-  const [disabled, setDisabled] = useState(true);
-  const [editingUser, setEditingUser] = useState('');
+import { auth } from '../firebase';
 
-
-  const handleEditUser = (user) => {
-    setEditingUser(user.name);
-    if (editingUser) setEditingUser('');
-  };
-
-  useEffect(() => {
-    let isMounted = true;
-    getdoc().then((doc) => {
-      if (isMounted) setUsers(doc);
+const UserList = ({ users }) => {
+  let disabled = true;
+  const [userBeingEdited, setUserBeingEdited] = useState('');
+  const [newUserInfo, setNewUserInfo] = useState({});
+  const handleEditUser = (e) => {
+    const user_object = users.find((obj) => {
+      if (obj.pantherId == e.target.id) return obj;
     });
-    return () => (isMounted = false);
-  }, []);
+    if (user_object !== undefined) {
+      setUserBeingEdited(user_object.pantherId);
+      if (userBeingEdited) setUserBeingEdited('');
+    }
+  };
 
   return (
     <table>
@@ -33,48 +29,87 @@ const UserList = () => {
         </tr>
       </thead>
 
-      {/* Display each user from firebase in a row */}
-      {users.map((user) => {
-        if (disabled)
-          if (auth.currentUser.email === user.email && user.isAdmin) {
-            setDisabled(!disabled);
-          }
-        
-        if (editingUser != user.name)
-          return (
-            <tbody>
-              <tr>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.pantherId}</td>
-                <td>{user.canModifyEquipment ? 'Yes' : 'No'}</td>
-                <td>{user.isEboard ? 'Yes' : 'No'}</td>
-                <td>{user.isAdmin ? 'Yes' : 'No'}</td>
-                <td>
-                  {disabled ? null : (
-                    <button
-                      type="button"
-                      onClick={() => handleEditUser(user)}>
-                      Edit User
-                    </button>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          );
-        else
-          return (
-            <tbody>
-              <EditUserForm
+      <tbody>
+        {users.map((user) => {
+          const canEditUsers =
+            auth.currentUser.email === user.email && user.isAdmin;
+          disabled = !disabled && canEditUsers;
+
+          // Duplicates being made after save
+          if (
+            Object.keys(user).length > 0 &&
+            user.pantherId != newUserInfo.pantherId
+          ) {
+            return (
+              <UserItem
                 user={user}
+                userBeingEdited={userBeingEdited}
                 disabled={disabled}
-                editingUser={editingUser}
                 handleEditUser={handleEditUser}
+                setNewUserInfo={setNewUserInfo}
+                setUserBeingEdited={setUserBeingEdited}
               />
-            </tbody>
-          );
-      })}
+            );
+          } else if (
+            Object.keys(newUserInfo).length > 0 &&
+            user.pantherId != newUserInfo.pantherId
+          ) {
+            return (
+              <UserItem
+                user={newUserInfo}
+                userBeingEdited={userBeingEdited}
+                disabled={disabled}
+                handleEditUser={handleEditUser}
+                setNewUserInfo={setNewUserInfo}
+                setUserBeingEdited={setUserBeingEdited}
+              />
+            );
+          }
+        })}
+      </tbody>
     </table>
   );
+};
+
+const UserItem = ({
+  user,
+  userBeingEdited,
+  disabled,
+  handleEditUser,
+  setNewUserInfo,
+  setUserBeingEdited,
+}) => {
+  if (userBeingEdited != user.pantherId) {
+    return (
+      <tr>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        <td>{user.pantherId}</td>
+        <td>{user.canModifyEquipment ? 'Yes' : 'No'}</td>
+        <td>{user.isEboard ? 'Yes' : 'No'}</td>
+        <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+        {disabled ? null : (
+          <td>
+            <button
+              type="submit"
+              onClick={handleEditUser}
+              id={user.pantherId}>
+              Edit User
+            </button>
+          </td>
+        )}
+      </tr>
+    );
+  } else {
+    return (
+      <EditUserForm
+        setNewUserInfo={setNewUserInfo}
+        user={user}
+        editingUser={userBeingEdited}
+        handleEditUser={handleEditUser}
+        setHandleEditUser={setUserBeingEdited}
+      />
+    );
+  }
 };
 export { UserList };

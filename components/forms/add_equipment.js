@@ -13,6 +13,7 @@ const AddEquipmentForm = () => {
       populated_fields[field] = form[field].value;
     });
 
+    
     const response = await fetch('/api/addEquipment', {
       method: 'POST',
       headers: {
