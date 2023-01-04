@@ -1,4 +1,6 @@
 import { TextFields, SelectField } from '../fields';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 const AddEquipmentForm = () => {
   let populated_fields = {};
@@ -36,10 +38,12 @@ const AddEquipmentForm = () => {
         list={type_list}
         field={fields[4]}
       />
-      <input
-        type="submit"
-        value="Add to Inventory"
-      />
+      <br />
+      <Button
+        variant="outlined"
+        type="submit">
+        Add to Inventory
+      </Button>
     </form>
   );
 };

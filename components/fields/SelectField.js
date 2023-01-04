@@ -1,20 +1,31 @@
+import { useState } from 'react';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { InputLabel } from '@mui/material';
 const SelectField = ({ list, field }) => {
+  const [selectState, setSelectState] = useState(list[0]);
+  const handleChange = (e) => {
+    setSelectState(e.target.value);
+  };
   return (
     <>
-      <label htmlFor={field}>{field}:</label>
-      <select
+      <br />
+      <InputLabel htmlFor={field}>{field}:</InputLabel>
+      <Select
+        variant="standard"
         name={field}
-        defaultValue={list[0]}>
+        onChange={handleChange}
+        value={selectState}>
         {list.map((item) => {
           return (
-            <option
-              value={item}
-              key={item}>
+            <MenuItem
+              key={item}
+              value={item}>
               {item}
-            </option>
+            </MenuItem>
           );
         })}
-      </select>
+      </Select>
     </>
   );
 };
