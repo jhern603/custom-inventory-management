@@ -4,10 +4,13 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
+  updateEmail,
 } from 'firebase/auth';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, getFirestore } from 'firebase/firestore';
 import { auth, handleError, pid_record_id } from './firebase';
 
+const db = getFirestore();
+const conf = require('../../conf.json');
 
 const email_signup = async (email, password, panther_id) => {
   try {
@@ -68,6 +71,20 @@ const signout = async () => {
   return false;
 };
 
+const update_email = async (email, panther_id) => {
+  const member = await pid_record_id(panther_id);
+  const user = auth.currentUser;
+  if (email != user.email) {
+    await updateEmail(user, email)
+    await setDoc(doc(db, 'users', user.uid), {
+      email: email,
+      canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),
+      isEboard: member[0].fields['Executive Board'].length > 0,
+      isAdmin: conf['admin_list'].includes(panther_id),
+      pantherId: panther_id,
+      name: member[0].fields['Name'],
+    });
+  }
+};
 
-
-export { email_signup, email_signin, signout };
+export { email_signup, email_signin, signout, update_email };

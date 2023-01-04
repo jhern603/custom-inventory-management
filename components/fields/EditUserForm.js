@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { auth, update_email, update_doc } from '../firebase';
+
 const EditUserForm = ({
   user,
   handleEditUser,
@@ -14,7 +16,15 @@ const EditUserForm = ({
   const handleSave = () => {
     newUserInfo.isEboard = isEboard;
     newUserInfo.canModifyEquipment = canModifyEquipment;
+    if (newUserInfo.email != user.email) {
+      if (
+        confirm('You are about to change your email. Are you sure about this?')
+      )
+        update_email(newUserInfo.email, newUserInfo.pantherId);
+      else newUserInfo.email = user.email;
+    }
     setNewUserInfo(newUserInfo);
+    update_doc(newUserInfo);
     setHandleEditUser('');
   };
 
@@ -33,12 +43,22 @@ const EditUserForm = ({
         />
       </td>
       <td>
-        <input
-          type="text"
-          name="email"
-          defaultValue={user.email}
-          onChange={handleChange}
-        />
+        {auth.currentUser.email === user.email ? (
+          <input
+            type="text"
+            name="email"
+            defaultValue={user.email}
+            onChange={handleChange}
+          />
+        ) : (
+          <input
+            type="text"
+            name="email"
+            defaultValue={user.email}
+            onChange={handleChange}
+            disabled
+          />
+        )}
       </td>
       <td>
         <p>{user.pantherId}</p>

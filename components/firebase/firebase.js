@@ -6,6 +6,8 @@ import {
   getDocs,
   query,
   where,
+  setDoc,
+  doc
 } from 'firebase/firestore';
 
 const conf = require('../../conf.json');
@@ -52,6 +54,17 @@ const getdoc = async (email) => {
   });
   return data_list;
 };
+const update_doc = async (new_user_info) => {
+  const user = auth.currentUser;
+  await setDoc(doc(db, 'users', user.uid), {
+    email: new_user_info.email,
+    canModifyEquipment: new_user_info.canModifyEquipment,
+    isEboard: new_user_info.isEboard,
+    isAdmin: conf['admin_list'].includes(new_user_info.pantherId),
+    pantherId: new_user_info.pantherId,
+    name: new_user_info.name,
+  });
+};
 const handleError = (error) => {
   switch (error.code) {
     case 'auth/invalid-email':
@@ -64,6 +77,11 @@ const handleError = (error) => {
       return { message: 'E-Mail not found.' };
     case 'auth/email-already-in-use':
       return { message: 'E-mail already in use!' };
+    case 'auth/requires-recent-login':
+      return {
+        message:
+          'Your session has timed out. Please sign-in again and try again.',
+      };
     case 'Panther ID not found.':
       return { message: 'You have entered an invalid Panther ID!' };
     default:
@@ -74,4 +92,4 @@ const handleError = (error) => {
   }
 };
 
-export { getdoc, handleError, pid_record_id, auth };
+export { getdoc, handleError, pid_record_id, update_doc, auth };
