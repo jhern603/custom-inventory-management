@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { signout, auth, getdoc } from '../components/firebase';
+import Button from '@mui/material/Button';
 
 function Navbar() {
   const router = useRouter();
@@ -12,7 +13,7 @@ function Navbar() {
     router.push('/');
   };
   const handleRoute = (e) => {
-    router.push('/' + e.target.name);
+    router.push('/' + e.target.id);
   };
 
   auth.onAuthStateChanged(() => {
@@ -26,57 +27,63 @@ function Navbar() {
 
   return (
     <nav>
-      {authState ? <p>Welcome, {auth.currentUser.name}</p> : null}
-      <input
-        type="button"
-        value="Home"
-        name=""
-        onClick={handleRoute}
-      />
+      {authState ? (
+        <p>
+          Welcome,{' '}
+          {auth.currentUser.email.slice(0, auth.currentUser.email.indexOf('@'))}
+          .
+        </p>
+      ) : null}
+      <Button
+        id=""
+        variant="outlined"
+        onClick={handleRoute}>
+        Home
+      </Button>
       {authState ? (
         <>
           {canEdit ? (
             <>
-              <input
-                type="button"
-                value="Add New Equipment"
-                name="equipment/addNew"
-                onClick={handleRoute}
-              />
-              <input
-                type="button"
-                value="Get Equipment"
-                name="equipment/get"
-                onClick={handleRoute}
-              />
+              <Button
+                variant="outlined"
+                id="equipment/addNew"
+                onClick={handleRoute}>
+                Add New Equipment
+              </Button>
+              <Button
+                variant="outlined"
+                id="equipment/get"
+                onClick={handleRoute}>
+                Get Equipment
+              </Button>
             </>
           ) : null}
-          <input
-            type="button"
-            value="Checkout Equipment"
-            name="equipment/checkout"
-            onClick={handleRoute}
-          />
-          <input
-            type="button"
-            value="Sign Out"
-            onClick={handleSignout}
-          />
+          <Button
+            variant="outlined"
+            id="equipment/checkout"
+            onClick={handleRoute}>
+            Checkout Equipment
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleSignout}>
+            Sign OUt
+          </Button>
         </>
       ) : (
         <>
-          <input
-            type="button"
-            value="Register"
-            name="user/register"
-            onClick={handleRoute}
-          />
-          <input
-            type="button"
-            value="Sign In"
-            name="user/signin"
-            onClick={handleRoute}
-          />
+          <Button
+            variant="outlined"
+            id="user/register"
+            onClick={handleRoute}>
+            Register
+          </Button>
+          <Button
+            variant="outlined"
+            id="user/signin"
+            onClick={handleRoute}>
+            Sign In
+          </Button>
         </>
       )}
     </nav>
