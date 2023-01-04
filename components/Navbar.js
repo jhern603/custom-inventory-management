@@ -16,7 +16,7 @@ function Navbar() {
   };
 
   auth.onAuthStateChanged(() => {
-    if (!authState && auth.currentUser) {
+    if (!authState && !Object.is(auth.currentUser, null)) {
       setAuthState(true);
       getdoc(auth.currentUser.email).then((val) =>
         setCanEdit(val['canModifyEquipment'])
@@ -26,7 +26,9 @@ function Navbar() {
 
   return (
     <nav>
-      {authState ? <p>Welcome, {auth.currentUser.name}</p> : null}
+      {authState && !Object.is(auth.currentUser, null) ? (
+        <p>Welcome, {auth.currentUser.name}</p>
+      ) : null}
       <input
         type="button"
         value="Home"
