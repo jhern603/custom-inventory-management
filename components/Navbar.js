@@ -27,9 +27,6 @@ auth.onAuthStateChanged(() => {
 
 return (
   <nav>
-    {authState && !Object.is(auth.currentUser, null) ? (
-      <p>Welcome, {auth.currentUser.email}</p>
-    ) : null}
     <Button
       id=""
       variant="outlined"

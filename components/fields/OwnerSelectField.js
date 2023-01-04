@@ -1,5 +1,4 @@
 const conf = require('../../conf.json');
-
 const OwnerSelectField = ({ disabled }) => {
   return conf['ownership_list'].map((owner) => {
     if (!disabled)

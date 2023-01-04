@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { OwnerSelectField } from './fields/OwnerSelectField';
+import { Button } from '@mui/material';
 
 export default function Result({ data, inventoryDate, setInventoryDate }) {
   const [defaultOption, setDefaultOption] = useState('');
@@ -78,22 +79,25 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
     return (
       <>
         <h1>Result for {data['Serial Number']}</h1>
-        <input
+        <Button
           type="submit"
-          value="Update Inventoried Date"
-          onClick={handleUpdate}
-        />
-        <input
+          variant="outlined"
+          onClick={handleUpdate}>
+          Update Inventoried Date
+        </Button>
+        <Button
           type="submit"
-          value="Edit Ownership"
-          onClick={() => setDisabled(!disabled)}
-        />
+          variant="outlined"
+          onClick={() => setDisabled(!disabled)}>
+          Edit Ownership
+        </Button>
         {!disabled ? (
-          <input
+          <Button
             type="submit"
-            value="Submit Change"
-            onClick={handleSubmitEdit}
-          />
+            variant="outlined"
+            onClick={handleSubmitEdit}>
+            Submit Change
+          </Button>
         ) : null}
 
         <p>Item description: {data['Manuf/Model']}</p>

@@ -1,3 +1,5 @@
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 const GetEquipmentForm = ({ setData, setInventoryDate }) => {
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -16,17 +18,19 @@ const GetEquipmentForm = ({ setData, setInventoryDate }) => {
 
   return (
     <form onSubmit={handleSearch}>
-      <label htmlFor="search_item">Serial Number of Equipment: </label>
-      <input
-        required
+      <br />
+      <TextField
+        label="Serial Number"
         type="search"
         name="search_item"
+        required
       />
       <br />
-      <input
+      <Button
         type="submit"
-        value="Search For Equipment"
-      />
+        variant="outlined">
+        Search For Equipment
+      </Button>
     </form>
   );
 };
