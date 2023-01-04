@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { email_signin } from '../firebase';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -13,30 +16,39 @@ function SignIn() {
     <div className="signin">
       <div className="signin__container">
         <form className="signin__form">
-          <input
+          <TextField
             type="text"
+            variant="standard"
             className="signin__textbox"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail Address"
+            label="E-mail Address"
           />
-          <input
+          <br />
+          <TextField
             type="password"
+            variant="standard"
             className="signin__textbox"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            label="Password"
           />
           {result.message ? (
-            <p>{result.message}</p>
+            <>
+              <br />
+              <br />
+              <Alert severity="error">{result.message}</Alert>
+            </>
           ) : result.email ? (
-            <p>You have successfully logged in!</p>
+            <Alert severity="success">You have successfully logged in!</Alert>
           ) : null}
-          <button
+          <br />
+          <Button
             className="signin__btn"
+            variant="outlined"
             onClick={signIn}>
             Sign In
-          </button>
+          </Button>
         </form>
       </div>
     </div>

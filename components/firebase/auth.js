@@ -43,7 +43,7 @@ const email_signup = async (email, password, panther_id) => {
       };
     }
   } catch (error) {
-    handleError(error);
+    return handleError(error);
   }
 };
 
@@ -62,7 +62,7 @@ const email_signin = async (email, password) => {
       };
     }
   } catch (error) {
-    handleError(error);
+    return handleError(error);
   }
 };
 
