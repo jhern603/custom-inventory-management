@@ -6,6 +6,5 @@ export default function Index() {
   useEffect(() => {
     const reroute = async () => router.push('/');
     reroute();
-  });
-  
+  }); 
 }
