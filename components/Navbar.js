@@ -15,7 +15,6 @@ function Navbar() {
   const handleRoute = (e) => {
     router.push('/' + e.target.id);
   };
-
 auth.onAuthStateChanged(() => {
   if (!authState && !Object.is(auth.currentUser, null)) {
     setAuthState(true);
