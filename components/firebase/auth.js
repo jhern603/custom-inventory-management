@@ -43,7 +43,7 @@ const email_signup = async (email, password, panther_id) => {
       };
     }
   } catch (error) {
-    handleError(error);
+    return handleError(error);
   }
 };
 
@@ -51,18 +51,19 @@ const email_signin = async (email, password) => {
   try {
     const res = await signInWithEmailAndPassword(auth, email, password);
     const user = res.user;
-
     if (user.emailVerified) {
       return user;
     } else {
+      sendEmailVerification(user);
       signout();
       return {
-        message:
-          'You have not verified your email yet!\nPlease click on the link sent to your email first before attempting to log in.',
-      };
-    }
+        message: `You have not verified your email yet!
+          Please click on the link sent to your email first before attempting to log in.
+          A new verification link has been sent to your email.`
+        };
+      }
   } catch (error) {
-    handleError(error);
+    return handleError(error);
   }
 };
 
@@ -75,7 +76,7 @@ const update_email = async (email, panther_id) => {
   const member = await pid_record_id(panther_id);
   const user = auth.currentUser;
   if (email != user.email) {
-    await updateEmail(user, email)
+    await updateEmail(user, email);
     await setDoc(doc(db, 'users', user.uid), {
       email: email,
       canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),

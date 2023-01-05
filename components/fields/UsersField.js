@@ -63,29 +63,22 @@ const UserList = ({ users }) => {
   );
 };
 
-const UserItem = ({
-  user,
-  userBeingEdited,
-  disabled,
-  handleEditUser,
-  setNewUserInfo,
-  setUserBeingEdited,
-}) => {
-  if (userBeingEdited != user.pantherId) {
+const UserItem = (props) => {
+  if (props.userBeingEdited != props.user.pantherId) {
     return (
       <tr>
-        <td>{user.name}</td>
-        <td>{user.email}</td>
-        <td>{user.pantherId}</td>
-        <td>{user.canModifyEquipment ? 'Yes' : 'No'}</td>
-        <td>{user.isEboard ? 'Yes' : 'No'}</td>
-        <td>{user.isAdmin ? 'Yes' : 'No'}</td>
-        {disabled ? null : (
+        <td>{props.user.name}</td>
+        <td>{props.user.email}</td>
+        <td>{props.user.pantherId}</td>
+        <td>{props.user.canModifyEquipment ? 'Yes' : 'No'}</td>
+        <td>{props.user.isEboard ? 'Yes' : 'No'}</td>
+        <td>{props.user.isAdmin ? 'Yes' : 'No'}</td>
+        {props.disabled ? null : (
           <td>
             <button
               type="submit"
-              onClick={handleEditUser}
-              id={user.pantherId}>
+              onClick={props.handleEditUser}
+              id={props.user.pantherId}>
               Edit User
             </button>
           </td>
@@ -95,11 +88,11 @@ const UserItem = ({
   } else {
     return (
       <EditUserForm
-        setNewUserInfo={setNewUserInfo}
-        user={user}
-        editingUser={userBeingEdited}
-        handleEditUser={handleEditUser}
-        setHandleEditUser={setUserBeingEdited}
+        setNewUserInfo={props.setNewUserInfo}
+        user={props.user}
+        editingUser={props.userBeingEdited}
+        handleEditUser={props.handleEditUser}
+        setHandleEditUser={props.setUserBeingEdited}
       />
     );
   }

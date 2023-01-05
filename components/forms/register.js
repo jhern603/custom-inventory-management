@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { email_signup } from '../firebase';
 import validator from 'validator';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -30,24 +34,30 @@ function Register() {
     }
   };
 
+  // Fix styling in CSS to separate fields instead of using < br/>
   return (
     <div className="register">
       <div className="register__container">
         <form className="register__form">
-          <input
+          <TextField
+            variant="standard"
+            type="text"
+            className="register__textbox"
+            onChange={(e) => setPID(e.target.value)}
+            placeholder="Panther ID"
+          />
+          <br />
+          <TextField
+            variant="standard"
             type="text"
             className="register__textbox"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail Address"
             required
           />
-          <input
-            type="text"
-            className="register__textbox"
-            onChange={(e) => setPID(e.target.value)}
-            placeholder="Panther ID"
-          />
-          <input
+          <br />
+          <TextField
+            variant="standard"
             type="password"
             className="register__textbox"
             value={password}
@@ -59,23 +69,36 @@ function Register() {
           />
           {!errorState ? null : (
             <span>
-              <p>
+              <Alert severity="warning">
                 Your password must be:
                 <br />
-                At least 6 characters long,
+                - At least 6 characters long,
                 <br />
-                Have 1 lowercase letter, Have 1 uppercase letter, Have 1 number,
-                <br />
-                Have 1 symbol.
-              </p>
+                - Have 1 lowercase letter, Have 1 uppercase letter, Have 1
+                number,
+                <br />- Have 1 symbol.
+              </Alert>
             </span>
           )}
-          {result ? <p>{result.message}</p> : null}
-          <button
+          {result ? (
+            <>
+              <br />
+              <br />
+              <Alert severity="error">
+                <AlertTitle>
+                  We have run into an issue while creating your account!
+                </AlertTitle>
+                {result.message}
+              </Alert>
+            </>
+          ) : null}
+          <br />
+          <Button
+            variant="outlined"
             className="register__btn"
             onClick={register}>
             Register
-          </button>
+          </Button>
         </form>
       </div>
     </div>

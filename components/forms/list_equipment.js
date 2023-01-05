@@ -1,16 +1,30 @@
 import { useState } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Radio from '@mui/material/Radio';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { InputLabel } from '@mui/material';
 
 const EquipmentTable = ({ setData }) => {
   const conf = require('../../conf.json');
   const [equipmentData, setEquipmentData] = useState([]);
   const [item, setItem] = useState('');
   const [selected, setSelected] = useState(false);
+  const [selectState, setSelectState] = useState();
+  const [count, setCount] = useState(0);
+
   const handleItem = (e) => {
     setItem(e.target.id);
     setSelected(true);
   };
 
   const handleSearch = async (event) => {
+    setSelectState(event.target.value);
     const response = await fetch('/api/listEquipment', {
       method: 'POST',
       headers: {
@@ -20,6 +34,7 @@ const EquipmentTable = ({ setData }) => {
     });
     const result = await response.json();
     setEquipmentData(result.data);
+    setCount(result.data.length);
   };
 
   const handleCheckout = (e) => {
@@ -27,51 +42,73 @@ const EquipmentTable = ({ setData }) => {
       if (equipment['Serial Number'] === item) setData(equipment);
     });
   };
+
   return (
-    <div>
+    <>
       {selected ? (
         <button onClick={handleCheckout}>Continue To Checkout</button>
       ) : (
         ''
       )}
       <>
-        <p>Filter by Type:</p>
-        <select
-          defaultValue="All"
-          onChange={handleSearch}>
-          <option key="All">All</option>
-          {conf.type_list.map((type) => {
-            return <option key={type}>{type}</option>;
+        <InputLabel htmlFor="filter">Filter by Type:</InputLabel>
+        <Select
+          variant="standard"
+          name="filter"
+          onChange={handleSearch}
+          value={selectState ? selectState : 'All'}>
+          <MenuItem
+            key="All"
+            value="All">
+            All
+          </MenuItem>
+          {conf.type_list.map((item) => {
+            return (
+              <MenuItem
+                key={item}
+                value={item}>
+                {item}
+              </MenuItem>
+            );
           })}
-        </select>
+        </Select>
       </>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Manuf/Model</th>
-            <th>Serial Number</th>
-          </tr>
-        </thead>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableCell>Select for Checkout</TableCell>
+            <TableCell>Type</TableCell>
+            <TableCell>Manuf/Model</TableCell>
+            <TableCell>Serial Number</TableCell>
+          </TableHead>
 
-        <tbody>
-          {equipmentData.map((record) => (
-            <tr>
-              <td key={record['Type']}>{record['Type']}</td>
-              <td key={record['Manuf/Model']}>{record['Manuf/Model']}</td>
-              <td key={record['Serial Number']}>{record['Serial Number']}</td>
-              <input
-                type="radio"
-                name="item_radio"
-                id={record['Serial Number']}
-                onClick={handleItem}
-              />
-              Select For Checkout
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          <TableBody>
+            {equipmentData.map((record) => {
+              return (
+                <TableRow>
+                  <TableCell>
+                    <Radio
+                      name="item_radio"
+                      id={record['Serial Number']}
+                      onChange={handleItem}
+                      checked={item === record['Serial Number']}
+                    />
+                  </TableCell>
+                  <TableCell key={record['Type']}>{record['Type']}</TableCell>
+                  <TableCell key={record['Manuf/Model']}>
+                    {record['Manuf/Model']}
+                  </TableCell>
+                  <TableCell key={record['Serial Number']}>
+                    {record['Serial Number']}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <p>Total Count: {count}</p>
+    </>
   );
 };
 

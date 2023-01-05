@@ -1,31 +1,27 @@
 import { useState } from 'react';
 import { auth, update_email, update_doc } from '../firebase';
+import { CheckBox } from './CheckBox';
 
-const EditUserForm = ({
-  user,
-  handleEditUser,
-  setHandleEditUser,
-  setNewUserInfo,
-}) => {
-  const [isEboard, setEboard] = useState(user.isEboard);
+const EditUserForm = (props) => {
+  const [isEboard, setEboard] = useState(props.user.isEboard);
   const [canModifyEquipment, setModifyEquipment] = useState(
-    user.canModifyEquipment
+    props.user.canModifyEquipment
   );
-  let newUserInfo = { ...user };
+  let newUserInfo = { ...props.user };
 
   const handleSave = () => {
     newUserInfo.isEboard = isEboard;
     newUserInfo.canModifyEquipment = canModifyEquipment;
-    if (newUserInfo.email != user.email) {
+    if (newUserInfo.email != props.user.email) {
       if (
         confirm('You are about to change your email. Are you sure about this?')
       )
         update_email(newUserInfo.email, newUserInfo.pantherId);
-      else newUserInfo.email = user.email;
+      else newUserInfo.email = props.user.email;
     }
-    setNewUserInfo(newUserInfo);
+    props.setNewUserInfo(newUserInfo);
     update_doc(newUserInfo);
-    setHandleEditUser('');
+    props.setHandleEditUser('');
   };
 
   const handleChange = (e) => {
@@ -37,40 +33,40 @@ const EditUserForm = ({
       <td>
         <input
           type="text"
-          name="name"
-          defaultValue={user.name}
+          id="name"
+          defaultValue={props.user.name}
           onChange={handleChange}
         />
       </td>
       <td>
-        {auth.currentUser.email === user.email ? (
+        {auth.currentUser.email === props.user.email ? (
           <input
             type="text"
-            name="email"
-            defaultValue={user.email}
+            id="email"
+            defaultValue={props.user.email}
             onChange={handleChange}
           />
         ) : (
           <input
             type="text"
-            name="email"
-            defaultValue={user.email}
+            id="email"
+            defaultValue={props.user.email}
             onChange={handleChange}
             disabled
           />
         )}
       </td>
       <td>
-        <p>{user.pantherId}</p>
+        <p>{props.user.pantherId}</p>
       </td>
       <td>
-        <CustomChecked
+        <CheckBox
           state={canModifyEquipment}
           setState={setModifyEquipment}
         />
       </td>
       <td>
-        <CustomChecked
+        <CheckBox
           state={isEboard}
           setState={setEboard}
         />
@@ -78,22 +74,22 @@ const EditUserForm = ({
       <td>
         <input
           type="checkbox"
-          defaultChecked={user.isAdmin}
+          defaultChecked={props.user.isAdmin}
           disabled
         />
       </td>
       <td>
         <button
           type="button"
-          onClick={handleEditUser}
-          id={user.pantherId}>
-          Edit User
+          onClick={props.handleEditUser}
+          id={props.user.pantherId}>
+          Cancel
         </button>
       </td>
       <td>
         <button
           type="button"
-          onClick={() => handleSave(user)}>
+          onClick={() => handleSave(props.user)}>
           Save
         </button>
       </td>
@@ -101,20 +97,6 @@ const EditUserForm = ({
         <p> editing user</p>
       </td>
     </tr>
-  );
-};
-
-const CustomChecked = ({ state, setState }) => {
-  const handleState = () => {
-    setState(!state);
-  };
-
-  return (
-    <input
-      type="checkbox"
-      onChange={handleState}
-      checked={state}
-    />
   );
 };
 

@@ -7,7 +7,7 @@ import {
   query,
   where,
   setDoc,
-  doc
+  doc,
 } from 'firebase/firestore';
 
 const conf = require('../../conf.json');
@@ -54,6 +54,7 @@ const getdoc = async (email) => {
   });
   return data_list;
 };
+
 const update_doc = async (new_user_info) => {
   const user = auth.currentUser;
   await setDoc(doc(db, 'users', user.uid), {
@@ -65,6 +66,7 @@ const update_doc = async (new_user_info) => {
     name: new_user_info.name,
   });
 };
+
 const handleError = (error) => {
   switch (error.code) {
     case 'auth/invalid-email':
