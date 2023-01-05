@@ -21,7 +21,7 @@ const email_signup = async (email, password, panther_id) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
 
-    await setDoc(doc(db, 'users', user.uid), {
+    await setDoc(doc(db, 'users', panther_id), {
       email: user.email,
       canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),
       isEboard: member[0].fields['Executive Board'].length > 0,
@@ -77,7 +77,7 @@ const update_email = async (email, panther_id) => {
   const user = auth.currentUser;
   if (email != user.email) {
     await updateEmail(user, email);
-    await setDoc(doc(db, 'users', user.uid), {
+    await setDoc(doc(db, 'users', user.pantherId), {
       email: email,
       canModifyEquipment: conf['can_modify_equipment'].includes(panther_id),
       isEboard: member[0].fields['Executive Board'].length > 0,

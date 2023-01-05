@@ -56,8 +56,8 @@ const getdoc = async (email) => {
 };
 
 const update_doc = async (new_user_info) => {
-  const user = auth.currentUser;
-  await setDoc(doc(db, 'users', user.uid), {
+  const user = new_user_info;
+  await setDoc(doc(db, 'users', user.pantherId), {
     email: new_user_info.email,
     canModifyEquipment: new_user_info.canModifyEquipment,
     isEboard: new_user_info.isEboard,

@@ -25,7 +25,7 @@ const EditUserForm = (props) => {
   };
 
   const handleChange = (e) => {
-    newUserInfo[e.target.name] = e.target.value;
+    newUserInfo[e.target.id] = e.target.value;
   };
 
   return (
