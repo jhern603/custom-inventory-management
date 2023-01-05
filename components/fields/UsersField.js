@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { EditUserForm } from './EditUserForm';
 import { auth } from '../firebase';
 
@@ -6,6 +6,8 @@ const UserList = ({ users }) => {
   let disabled = true;
   const [userBeingEdited, setUserBeingEdited] = useState('');
   const [newUserInfo, setNewUserInfo] = useState({});
+  let isAdmin = false;
+
   const handleEditUser = (e) => {
     const user_object = users.find((obj) => {
       if (obj.pantherId === e.target.id) return obj;
@@ -15,7 +17,14 @@ const UserList = ({ users }) => {
       if (userBeingEdited) setUserBeingEdited('');
     }
   };
+  const setIsAdmin = (user) => {
+    if (!isAdmin && (user.isAdmin && user.email === auth.currentUser.email))
+      isAdmin = true;
+  };
 
+  users.map((user) => {
+    setIsAdmin(user);
+  });
   return (
     <table>
       <thead>
@@ -31,10 +40,8 @@ const UserList = ({ users }) => {
 
       <tbody>
         {users.map((user) => {
-          const canEditUsers =
-            auth.currentUser.email === user.email && user.isAdmin;
-          disabled = !disabled && canEditUsers;
-          if (user.pantherId != newUserInfo.pantherId) {
+          disabled = true && isAdmin;
+          if (user.pantherId !== newUserInfo.pantherId) {
             return (
               <UserItem
                 user={user}
@@ -73,7 +80,7 @@ const UserItem = (props) => {
         <td>{props.user.canModifyEquipment ? 'Yes' : 'No'}</td>
         <td>{props.user.isEboard ? 'Yes' : 'No'}</td>
         <td>{props.user.isAdmin ? 'Yes' : 'No'}</td>
-        {props.disabled ? null : (
+        {!props.disabled ? null : (
           <td>
             <button
               type="submit"
