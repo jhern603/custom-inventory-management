@@ -4,7 +4,6 @@ import { useState } from 'react';
 export default function Index() {
   const [docRetrieved, setDocRetrieved] = useState(false);
   const [users, setUsers] = useState([]);
-
   if (!docRetrieved) {
     getdoc().then((doc) => {
       setUsers(doc);
