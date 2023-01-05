@@ -80,7 +80,18 @@ function Register() {
               </Alert>
             </span>
           )}
-          {result ? (
+          {result ===
+          'Account Successfully Created. Click the verification link sent to your email to complete the sign-up process.' ? (
+            <>
+              <br />
+              <br />
+              <Alert severity="success">
+                <AlertTitle>Account successfully created!</AlertTitle>
+                Click the verification link sent to your email to complete the
+                sign-up process.
+              </Alert>
+            </>
+          ) : (
             <>
               <br />
               <br />
@@ -91,7 +102,7 @@ function Register() {
                 {result.message}
               </Alert>
             </>
-          ) : null}
+          )}
           <br />
           <Button
             variant="outlined"

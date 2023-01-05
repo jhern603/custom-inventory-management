@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { auth, update_email, update_doc } from '../firebase';
 import { CheckBox } from './CheckBox';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Radio from '@mui/material/Radio';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 const EditUserForm = (props) => {
   const [isEboard, setEboard] = useState(props.user.isEboard);
@@ -29,25 +34,28 @@ const EditUserForm = (props) => {
   };
 
   return (
-    <tr>
-      <td>
-        <input
+    <TableRow>
+      <TableCell>
+        <TextField
+          variant="standard"
           type="text"
           id="name"
           defaultValue={props.user.name}
           onChange={handleChange}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         {auth.currentUser.email === props.user.email ? (
-          <input
+          <TextField
+            variant="standard"
             type="text"
             id="email"
             defaultValue={props.user.email}
             onChange={handleChange}
           />
         ) : (
-          <input
+          <TextField
+            variant="standard"
             type="text"
             id="email"
             defaultValue={props.user.email}
@@ -55,48 +63,43 @@ const EditUserForm = (props) => {
             disabled
           />
         )}
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <p>{props.user.pantherId}</p>
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <CheckBox
           state={canModifyEquipment}
           setState={setModifyEquipment}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <CheckBox
           state={isEboard}
           setState={setEboard}
         />
-      </td>
-      <td>
-        <input
+      </TableCell>
+      <TableCell>
+        <Radio
           type="checkbox"
           defaultChecked={props.user.isAdmin}
           disabled
         />
-      </td>
-      <td>
-        <button
+      </TableCell>
+      <TableCell>
+        <Button
           type="button"
           onClick={props.handleEditUser}
           id={props.user.pantherId}>
           Cancel
-        </button>
-      </td>
-      <td>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => handleSave(props.user)}>
           Save
-        </button>
-      </td>
-      <td>
-        <p> editing user</p>
-      </td>
-    </tr>
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };
 

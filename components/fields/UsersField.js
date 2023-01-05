@@ -1,6 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { EditUserForm } from './EditUserForm';
 import { auth } from '../firebase';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
 
 const UserList = ({ users }) => {
   let disabled = true;
@@ -18,7 +25,7 @@ const UserList = ({ users }) => {
     }
   };
   const setIsAdmin = (user) => {
-    if (!isAdmin && (user.isAdmin && user.email === auth.currentUser.email))
+    if (!isAdmin && user.isAdmin && user.email === auth.currentUser.email)
       isAdmin = true;
   };
 
@@ -26,71 +33,74 @@ const UserList = ({ users }) => {
     setIsAdmin(user);
   });
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Panther ID</th>
-          <th>Can Modify Equipment?</th>
-          <th>Member of Eboard?</th>
-          <th>Admin?</th>
-        </tr>
-      </thead>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Panther ID</TableCell>
+            <TableCell>Can Modify Equipment?</TableCell>
+            <TableCell>Member of Eboard?</TableCell>
+            <TableCell>Admin?</TableCell>
+            <TableCell />
+          </TableRow>
+        </TableHead>
 
-      <tbody>
-        {users.map((user) => {
-          disabled = true && isAdmin;
-          if (user.pantherId !== newUserInfo.pantherId) {
-            return (
-              <UserItem
-                user={user}
-                userBeingEdited={userBeingEdited}
-                disabled={disabled}
-                handleEditUser={handleEditUser}
-                setNewUserInfo={setNewUserInfo}
-                setUserBeingEdited={setUserBeingEdited}
-              />
-            );
-          } else if (Object.keys(newUserInfo).length > 0) {
-            return (
-              <UserItem
-                user={newUserInfo}
-                userBeingEdited={userBeingEdited}
-                disabled={disabled}
-                handleEditUser={handleEditUser}
-                setNewUserInfo={setNewUserInfo}
-                setUserBeingEdited={setUserBeingEdited}
-              />
-            );
-          }
-        })}
-      </tbody>
-    </table>
+        <TableBody>
+          {users.map((user) => {
+            disabled = true && isAdmin;
+            if (user.pantherId !== newUserInfo.pantherId) {
+              return (
+                <UserItem
+                  user={user}
+                  userBeingEdited={userBeingEdited}
+                  disabled={disabled}
+                  handleEditUser={handleEditUser}
+                  setNewUserInfo={setNewUserInfo}
+                  setUserBeingEdited={setUserBeingEdited}
+                />
+              );
+            } else if (Object.keys(newUserInfo).length > 0) {
+              return (
+                <UserItem
+                  user={newUserInfo}
+                  userBeingEdited={userBeingEdited}
+                  disabled={disabled}
+                  handleEditUser={handleEditUser}
+                  setNewUserInfo={setNewUserInfo}
+                  setUserBeingEdited={setUserBeingEdited}
+                />
+              );
+            }
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
 const UserItem = (props) => {
   if (props.userBeingEdited != props.user.pantherId) {
     return (
-      <tr>
-        <td>{props.user.name}</td>
-        <td>{props.user.email}</td>
-        <td>{props.user.pantherId}</td>
-        <td>{props.user.canModifyEquipment ? 'Yes' : 'No'}</td>
-        <td>{props.user.isEboard ? 'Yes' : 'No'}</td>
-        <td>{props.user.isAdmin ? 'Yes' : 'No'}</td>
+      <TableRow>
+        <TableCell>{props.user.name}</TableCell>
+        <TableCell>{props.user.email}</TableCell>
+        <TableCell>{props.user.pantherId}</TableCell>
+        <TableCell>{props.user.canModifyEquipment ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{props.user.isEboard ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{props.user.isAdmin ? 'Yes' : 'No'}</TableCell>
         {!props.disabled ? null : (
-          <td>
-            <button
+          <TableCell>
+            <Button
               type="submit"
               onClick={props.handleEditUser}
               id={props.user.pantherId}>
               Edit User
-            </button>
-          </td>
+            </Button>
+          </TableCell>
         )}
-      </tr>
+      </TableRow>
     );
   } else {
     return (
