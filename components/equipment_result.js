@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { OwnerSelectField } from './fields';
-import { Button } from '@mui/material';
+import { Button, Typography, InputLabel, Select } from '@mui/material';
 
 export default function Result({ data, inventoryDate, setInventoryDate }) {
   const [defaultOption, setDefaultOption] = useState('');
@@ -78,7 +78,8 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
     handleGetOwner();
     return (
       <>
-        <h1>Result for {data['Serial Number']}</h1>
+        <br />
+        <Typography variant='h6'>Result for {data['Serial Number']}</Typography>
         <Button
           type="submit"
           variant="outlined"
@@ -109,26 +110,26 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
           </Button>
         )}
 
-        <p>Item description: {data['Manuf/Model']}</p>
-        <p>Internal ID: {data['Internal ID']}</p>
+        <Typography>Item description: {data['Manuf/Model']}</Typography>
+        <Typography>Internal ID: {data['Internal ID']}</Typography>
         {defaultOption ? (
           <>
-            <p>Belongs to:</p>
-            <select
-              defaultValue={defaultOption}
+            <InputLabel>Belongs to:</InputLabel>
+            <Select
+              selected={defaultOption}
               ref={new_owner_ref}>
               <OwnerSelectField
                 data={data}
                 disabled={disabled}
               />
-            </select>
+            </Select>
           </>
         ) : (
-          <p> Getting Programs... </p>
+          <Typography> Getting Programs... </Typography>
         )}
 
-        <p>Added to inventory: {data['Added']}</p>
-        <p>Last Inventoried: {inventoryDate}</p>
+        <Typography>Added to inventory: {data['Added']}</Typography>
+        <Typography>Last Inventoried: {inventoryDate}</Typography>
         <Image
           src={data['Barcode']}
           width={300}

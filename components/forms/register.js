@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { email_signup } from '../firebase';
 import validator from 'validator';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import { Alert, AlertTitle, Button, TextField } from '@mui/material';
 
 function Register() {
   const [email, setEmail] = useState('');

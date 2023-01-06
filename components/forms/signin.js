@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { email_signin } from '../firebase';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
-
+import { Alert, Button, TextField } from '@mui/material';
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

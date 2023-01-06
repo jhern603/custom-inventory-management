@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { EditUserForm } from '../forms';
 import { auth } from '../firebase';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
+import {
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableContainer,
+  Button,
+} from '@mui/material';
 
 const UserList = ({ users }) => {
   let disabled = true;

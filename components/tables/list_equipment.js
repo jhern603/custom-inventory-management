@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Radio from '@mui/material/Radio';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { InputLabel } from '@mui/material';
+import {
+  InputLabel,
+  MenuItem,
+  Select,
+  Radio,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableContainer,
+  Typography,
+  Button,
+} from '@mui/material';
 
 const EquipmentTable = ({ setData }) => {
   const conf = require('../../conf.json');
@@ -46,7 +50,7 @@ const EquipmentTable = ({ setData }) => {
   return (
     <>
       {selected ? (
-        <button onClick={handleCheckout}>Continue To Checkout</button>
+        <Button variant='outlined' onClick={handleCheckout}>Continue To Checkout</Button>
       ) : (
         ''
       )}
@@ -107,7 +111,7 @@ const EquipmentTable = ({ setData }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <p>Total Count: {count}</p>
+      <Typography>Total Count: {count}</Typography>
     </>
   );
 };

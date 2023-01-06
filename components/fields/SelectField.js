@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { InputLabel } from '@mui/material';
-const SelectField = ({ list, field, eventHandler }) => {
+import { InputLabel, Select, MenuItem } from '@mui/material';
+const SelectField = ({ list, field }) => {
   const [selectState, setSelectState] = useState(list[0]);
   const handleChange = (e) => {
     setSelectState(e.target.value);

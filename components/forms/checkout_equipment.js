@@ -1,3 +1,12 @@
+import {
+  InputLabel,
+  TextField,
+  Typography,
+  Checkbox,
+  Link,
+  Button,
+} from '@mui/material';
+
 const CheckoutForm = ({ data }) => {
   const TOC =
     'https://upefiu.notion.site/Equipment-Checkout-Procedures-5aed624e6ddf4199ad14418cc1bf6ec1';
@@ -24,47 +33,46 @@ const CheckoutForm = ({ data }) => {
       window.location.reload(false);
     } else alert('There was a Problem Checking out the Equipment!');
   };
+  
   return (
     <form onSubmit={handleCheckout}>
-      <h3>You are attempting to check out: {data['Manuf/Model']}</h3>
-      <label htmlFor="type">Type: {data['Type']}</label>
-      <br />
-      <label htmlFor="SN">Serial Number: {data['Serial Number']}</label>
-      <br />
-      <label htmlFor="PID">Panther ID:</label>
-      <input
-        type="text"
+      <Typography variant="h5">
+        You are attempting to check out: {data['Manuf/Model']}
+      </Typography>
+      <InputLabel htmlFor="type">Type: {data['Type']}</InputLabel>
+      <InputLabel htmlFor="SN">
+        Serial Number: {data['Serial Number']}
+      </InputLabel>
+      <InputLabel htmlFor="PID">Panther ID:</InputLabel>
+      <TextField
         name="PID"
         required
       />
-      <br />
-      <label htmlFor="purpose">Purpose of Checkout:</label>
-      <textarea
+      <InputLabel htmlFor="purpose">Purpose of Checkout:</InputLabel>
+      <TextField
+        multiline
         name="purpose"
         cols="30"
         rows="10"
         minLength="5"
         required
       />
-      <br />
-      <label htmlFor="TOC">
+      <InputLabel htmlFor="TOC">
         By checking out this equipment, you are agreeing that you have read the{' '}
-        <a
+        <Link
           href={TOC}
           target="_blank"
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           terms and conditions
-        </a>
+        </Link>{' '}
         of the equipment checkout.
-      </label>
-      <input
-        type="checkbox"
-        name="TOC"
-        required
-      />
-      <br />
-      <input
+        <Checkbox
+          type="checkbox"
+          name="TOC"
+          required
+        />
+      </InputLabel>
+      <Button
         type="submit"
         value="Proceed to Checkout"
       />

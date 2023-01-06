@@ -6,9 +6,8 @@ import { CacheProvider } from '@emotion/react';
 import theme from '../config/theme';
 import createEmotionCache from '../config/createEmotionCache';
 import { Navbar } from '../components/Navbar';
-import '../styles/globals.css';
+import '../styles/imports.scss';
 
-// Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 function InventoryManager(props) {
@@ -22,7 +21,6 @@ function InventoryManager(props) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Navbar />
         <Component {...pageProps} />

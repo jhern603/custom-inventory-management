@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { update_email, update_doc } from '../firebase';
 import { RadioCustom } from '../fields/CheckBox';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import Radio from '@mui/material/Radio';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import {
+  Radio,
+  Button,
+  TextField,
+  TableRow,
+  TableCell,
+} from '@mui/material';
 
 const EditUserForm = (props) => {
   const [isEboard, setEboard] = useState(props.user.isEboard);

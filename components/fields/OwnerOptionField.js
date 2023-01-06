@@ -1,20 +1,18 @@
+import { MenuItem } from '@mui/material';
 const conf = require('../../conf.json');
-const OwnerSelectField = ({ disabled }) => {
+const OwnerSelectField = ({ disabled, value, setValue }) => {
+  const handleChange = (owner) => {
+    
+  }
   return conf['ownership_list'].map((owner) => {
-    if (!disabled)
-      return (
-        <option
-          key={owner}>
-          {owner}
-        </option>
-      );
+    if (!disabled) return <MenuItem key={owner}>{owner}</MenuItem>;
     else
       return (
-        <option
+        <MenuItem
           key={owner}
           disabled>
           {owner}
-        </option>
+        </MenuItem>
       );
   });
 };
