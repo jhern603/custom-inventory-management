@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { auth, update_email, update_doc } from '../firebase';
-import { CheckBox } from './CheckBox';
+import { update_email, update_doc } from '../firebase';
+import { RadioCustom } from '../fields/CheckBox';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Radio from '@mui/material/Radio';
@@ -45,36 +45,25 @@ const EditUserForm = (props) => {
         />
       </TableCell>
       <TableCell>
-        {auth.currentUser.email === props.user.email ? (
-          <TextField
-            variant="standard"
-            type="text"
-            id="email"
-            defaultValue={props.user.email}
-            onChange={handleChange}
-          />
-        ) : (
-          <TextField
-            variant="standard"
-            type="text"
-            id="email"
-            defaultValue={props.user.email}
-            onChange={handleChange}
-            disabled
-          />
-        )}
+        <TextField
+          variant="standard"
+          type="text"
+          id="email"
+          defaultValue={props.user.email}
+          onChange={handleChange}
+        />
       </TableCell>
       <TableCell>
         <p>{props.user.pantherId}</p>
       </TableCell>
       <TableCell>
-        <CheckBox
+        <RadioCustom
           state={canModifyEquipment}
           setState={setModifyEquipment}
         />
       </TableCell>
       <TableCell>
-        <CheckBox
+        <RadioCustom
           state={isEboard}
           setState={setEboard}
         />

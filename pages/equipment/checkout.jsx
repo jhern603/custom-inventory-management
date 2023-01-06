@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { CheckoutForm, EquipmentTable } from '../../components/forms';
+import { CheckoutForm } from '../../components/forms';
+import { EquipmentTable } from '../../components/tables';
 import { auth } from '../../components/firebase';
 
 export default function Index() {

@@ -80,7 +80,7 @@ function Register() {
               </Alert>
             </span>
           )}
-          {result ===
+          {result.message ===
           'Account Successfully Created. Click the verification link sent to your email to complete the sign-up process.' ? (
             <>
               <br />

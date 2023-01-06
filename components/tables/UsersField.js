@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EditUserForm } from './EditUserForm';
+import { EditUserForm } from '../forms';
 import { auth } from '../firebase';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

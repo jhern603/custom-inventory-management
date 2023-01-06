@@ -12,4 +12,4 @@ const CustomChecked = ({ state, setState }) => {
   );
 };
 
-export { CustomChecked as CheckBox };
+export { CustomChecked as RadioCustom };

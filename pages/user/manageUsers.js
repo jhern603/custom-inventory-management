@@ -1,4 +1,4 @@
-import { UserList } from '../../components/fields';
+import { UserList } from '../../components/tables';
 import { getdoc } from '../../components/firebase';
 import { useState } from 'react';
 export default function Index() {

@@ -4,7 +4,7 @@ const TextFields = ({ fields }) => {
     if (!field.includes('Belongs To') && !field.includes('Type'))
       return (
         <>
-          <br/>
+          <br />
           <TextField
             label={field}
             variant="standard"
@@ -16,4 +16,4 @@ const TextFields = ({ fields }) => {
   });
 };
 
-export { TextFields };
+export { TextFields as TextField };

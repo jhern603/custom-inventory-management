@@ -1,6 +1,6 @@
 import { TextFields, SelectField } from '../fields';
 import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+
 
 const AddEquipmentForm = () => {
   let populated_fields = {};

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
-import { OwnerSelectField } from './fields/OwnerSelectField';
+import { OwnerSelectField } from './fields';
 import { Button } from '@mui/material';
 
 export default function Result({ data, inventoryDate, setInventoryDate }) {
@@ -85,20 +85,29 @@ export default function Result({ data, inventoryDate, setInventoryDate }) {
           onClick={handleUpdate}>
           Update Inventoried Date
         </Button>
-        <Button
-          type="submit"
-          variant="outlined"
-          onClick={() => setDisabled(!disabled)}>
-          Edit Ownership
-        </Button>
         {!disabled ? (
+          <>
+            <Button
+              type="submit"
+              variant="outlined"
+              onClick={() => setDisabled(!disabled)}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="outlined"
+              onClick={handleSubmitEdit}>
+              Submit Change
+            </Button>
+          </>
+        ) : (
           <Button
             type="submit"
             variant="outlined"
-            onClick={handleSubmitEdit}>
-            Submit Change
+            onClick={() => setDisabled(!disabled)}>
+            Edit Ownership
           </Button>
-        ) : null}
+        )}
 
         <p>Item description: {data['Manuf/Model']}</p>
         <p>Internal ID: {data['Internal ID']}</p>
