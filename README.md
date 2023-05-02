@@ -4,3 +4,5 @@ This project is intended to be an inventory management solution to ease the work
 To become a collaborator, contact [contact@josehernandez.dev](mailto:contact@josehernandez.dev) with your name and affilition to UPE.
 
 This portal is being developed using NextJS.
+
+[![CodeQL](https://github.com/jhern603/custom-inventory-management/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/jhern603/custom-inventory-management/actions/workflows/codeql.yml)
